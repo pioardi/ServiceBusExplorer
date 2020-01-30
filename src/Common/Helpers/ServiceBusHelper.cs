@@ -871,14 +871,15 @@ namespace ServiceBusExplorer
             });
             return RetryHelper.RetryFunc(func, writeToLog);
         }
-
+        
+        // Used for AD authentication
         public bool ConnectAD(string uri,
                           string clientId,
                           string clientSecret,
                           string tenantId,
                           TransportType transportType)
         {
-
+            
             // Create the service URI using the uri specified in the Connect form
             namespaceUri = new Uri(uri);
             connectionStringType = ServiceBusNamespaceType.Cloud;
