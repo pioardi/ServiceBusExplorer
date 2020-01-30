@@ -1342,7 +1342,17 @@ namespace ServiceBusExplorer.Forms
                     UpdateSavedConnectionsMenu();
                     selectedEntites = connectForm.SelectedEntities;
                     ServiceBusHelper.ConnectivityMode = connectForm.ConnectivityMode;
-                    if (!string.IsNullOrWhiteSpace(connectForm.ConnectionString))
+
+                    if (serviceBusHelper.ServiceBusNamespaces[connectForm.Key].UsingAadAuthentication())
+                    {
+                        Console.WriteLine("Authentication type: AAD");
+                        serviceBusHelper.ConnectAD(connectForm.Uri,
+                                                     connectForm.IssuerName,
+                                                     connectForm.IssuerSecret,
+                                                     connectForm.EntityPath,
+                                                     connectForm.TransportType);
+                    }
+                    else if (!string.IsNullOrWhiteSpace(connectForm.ConnectionString))
                     {
                         var serviceBusNamespace = ServiceBusNamespace.GetServiceBusNamespace(connectForm.Key ?? "Manual",
                             connectForm.ConnectionString, StaticWriteToLog);
